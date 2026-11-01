@@ -1,0 +1,33 @@
+id: "04"
+slug: "log-analysis"
+title: "Kayıt Okuma"
+concept: ["grep", "awk", "log alanları", "metin analizi"]
+requires: "03"
+estimated_minutes: 10
+
+dirs:
+  - path: /home/player04/logs
+    owner: player04
+    mode: "0750"
+
+files:
+  - path: /home/player04/NOTES
+    owner: player04
+    mode: "0640"
+    template: files/NOTES
+
+  - path: /home/player04/logs/1996-transfer.log
+    owner: player04
+    mode: "0640"
+    template: files/1996-transfer.log
+
+flag:
+  owner: player04
+  mode: "0400"
+
+hints:
+  - "Her satır dört alan: zaman, actor=, status=, ref=. Önce alanları ayırt et."
+  - "Mühür yalnızca hem custodian hem sealed olan satırda: `grep -E 'actor=custodian.*status=sealed' ~/logs/*`."
+  - "`awk '$2==\"actor=custodian\" && $3==\"status=sealed\" {print $4}' ~/logs/1996-transfer.log`"
+
+docs: docs/levels/04.md

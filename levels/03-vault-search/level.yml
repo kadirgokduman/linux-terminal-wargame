@@ -1,0 +1,84 @@
+id: "03"
+slug: "vault-search"
+title: "Kasa Araması"
+concept: ["find", "-size", "-user", "dosya hiyerarşisi"]
+requires: "02"
+estimated_minutes: 12
+
+dirs:
+  - path: /srv/vault/01
+    owner: root
+    mode: "0755"
+  - path: /srv/vault/02
+    owner: root
+    mode: "0755"
+  - path: /srv/vault/03
+    owner: root
+    mode: "0755"
+  - path: /srv/vault/04
+    owner: root
+    mode: "0755"
+
+files:
+  # Her kasa kaydı sabit genişlikte bir yuvaya yazılır (4096 bayt).
+  # Çözüm, boyut ile sahipliği birlikte kullanmayı gerektirir.
+  - path: /srv/vault/01/ledger-1986.dat
+    owner: root
+    mode: "0644"
+    pad_to: 1024
+    content: |
+      VAULT SLOT · 1986
+      holder: cooperative
+      note  : opening balance, no seal
+
+  - path: /srv/vault/01/ledger-1987.dat
+    owner: root
+    mode: "0644"
+    pad_to: 2048
+    content: |
+      VAULT SLOT · 1987
+      holder: cooperative
+      note  : first offsite copy
+
+  - path: /srv/vault/02/inventory.dat
+    owner: root
+    mode: "0644"
+    pad_to: 4096
+    content: |
+      VAULT SLOT · inventory
+      holder: cooperative
+      note  : same slot width as every other record, no seal here
+
+  - path: /srv/vault/02/notes.txt
+    owner: root
+    mode: "0644"
+    pad_to: 512
+    content: |
+      Kasa notları — 1996
+      Yuva genişliği 4096 bayttır. Kayıtlar kısadır, gerisi dolgudur.
+
+  - path: /srv/vault/03/roster.dat
+    owner: root
+    mode: "0644"
+    pad_to: 4096
+    content: |
+      VAULT SLOT · roster
+      holder: root
+      note  : aynı boyut, yanlış sahip
+
+  - path: /srv/vault/04/manifest.dat
+    owner: player03
+    mode: "0640"
+    pad_to: 4096
+    template: files/manifest.dat
+
+flag:
+  owner: player03
+  mode: "0400"
+
+hints:
+  - "Kasa ağacı dört odalı ve her oda dolu görünüyor: `find /srv -type f`."
+  - "Bütün kayıtlar aynı yuva genişliğinde: `find / -size 4096c -type f 2>/dev/null`."
+  - "Sana ait olan tek kayıt: `find / -user player03 -size 4096c -type f 2>/dev/null`."
+
+docs: docs/levels/03.md

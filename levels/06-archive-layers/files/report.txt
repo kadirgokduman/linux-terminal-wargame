@@ -1,0 +1,15 @@
+OFFSITE TRANSFER RAPORU
+=======================
+
+Tarih : 1996-03-14
+Taşıyıcı: xfer
+Durum : tamamlandı
+
+Paket iki katman olarak hazırlandı. Dış katman bütünlük kontrolünden
+geçti; iç katman ayrıca mühürlendi.
+
+Mühür, iç katmanın kökünde tek bir dosyadır. Dosya adı `seal.txt`.
+İçinde fazladan süs yok; son satırı mühürün kendisidir.
+
+Not: bu raporun bulunduğu katmanı açmadan iç katmanı açamazsın.
+Sırayı atlarsan `tar` sana bir dosya adı verir, içerik vermez.

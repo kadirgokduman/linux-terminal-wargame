@@ -1,0 +1,21 @@
+  C A L D E R   R E A C H   ·   A R Ş İ V   T E R M İ N A L İ
+  ─────────────────────────────────────────────────────────────
+
+  Hoş geldin, custodian.
+
+  Bu makinede iki şey var: kapanmakta olan bir arşiv ve onu kapatmaya
+  çalışan bir sayaç. Mühürler açıldıkça arşiv nefes alır.
+
+  Sen player00'sın. Bu odada tek bir nesne var: elindeki bu dosya.
+  Onu okuduğuna göre ilk adımı zaten attın.
+
+  MÜHÜR 01 — bir sonraki kapının anahtarı:
+
+      {{flag:01}}
+
+  Bir sonraki oturum aynı adres ve port üzerinden:
+
+      ssh player01@<sunucu> -p <port>
+
+  Parolayı bir yere yaz. Bu terminalde geri dönüş yok, ama
+  her seferinde yeniden başlayabilirsin.

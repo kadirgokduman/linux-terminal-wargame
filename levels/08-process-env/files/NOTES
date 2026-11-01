@@ -1,0 +1,18 @@
+SÜREÇ NOTLARI
+=============
+
+Bazı sırlar dosyada durmaz. Bir süreç başlarken ortamına aldığı
+değerler, o sürecin ömrü boyunca `/proc/<pid>/environ` içinde yaşar —
+dosya sisteminde hiçbir yerde görünmez.
+
+Bu odada, senin adına çalışan uzun ömürlü bir doğrulayıcı var.
+Mührü ortamında taşıyor. Sahibi sensin; bu yüzden onu okuyabilirsin.
+
+Hatırlatma: `/proc/<pid>/environ` tek bir metin değil, NUL ile ayrılmış
+bir alan listesidir. `cat` çıktısı tek satır gibi görünür; okumak için
+ayırıcıyı değiştir:
+
+    tr '\0' '\n' < /proc/<pid>/environ
+
+`ps aux` süreci gösterir, ama ortamı göstermez. `ps e` gösterir —
+o da yalnızca senin süreçlerin için.

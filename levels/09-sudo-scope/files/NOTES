@@ -1,0 +1,27 @@
+YETKİ ODASI
+===========
+
+Bu odada iki kullanıcı var: sen ve bir sonraki oda. Aradaki köprü
+`sudo` ile kurulmuş — ama dar bir köprü.
+
+Dar kapsam, güvenli kapsam demek değildir. Bir programa yetki verdiğinde,
+o programın **yapabildiği her şeyi** vermiş olursun. `find` dosya arar;
+ama aynı zamanda dosya çalıştırır (`-exec`), dosya yazar, hatta kabuk
+açar. Yani "sadece find" cümlesi, "istediğin komutu onun adına çalıştır"
+anlamına gelir.
+
+Bunu görmek için:
+
+    sudo -l                          # sana ne izin verilmiş?
+    sudo -n -u player10 find ...     # köprüyü kullan
+
+`sudo -l` senin kendi parolanı ister. `-n` ise hiç parola sormaz;
+yalnızca NOPASSWD kuralı varsa çalışır.
+
+Not: `find`'in `-exec` bayrağı, çalıştırdığı komutu **sudo'nun hedef
+kullanıcısı** olarak çalıştırır. Yetki, find'e değil; find'in çocuğuna
+geçer.
+
+Bir ayrıntı: ev dizinin 0750 ve sahibi sensin. `sudo -u player10` ile
+çalışan süreç oraya giremez, çünkü çalışma dizini orasıdır. Bu yüzden
+komutu `/tmp` gibi herkesin girebildiği bir dizinden çalıştır.

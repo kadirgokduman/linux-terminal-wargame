@@ -1,0 +1,27 @@
+SON ODA
+=======
+
+`~/bin/checker` bir doğrulayıcı. Doğru mühürü argüman olarak verirsen
+`access granted` der; yanlış verirsen `access denied`.
+
+Mührü kendi içinde taşımıyor. `~/lib/blob` dosyasını okuyor ve
+bellekte çözüyor. Bu yüzden:
+
+    strings ~/bin/checker     → hiçbir şey
+    strings ~/lib/blob        → hiçbir şey (ikili veri)
+
+Doğru araç, programın **ne yaptığını** gösteren araçtır, içinde ne
+yazdığını gösteren değil:
+
+    ltrace -e strcmp ~/bin/checker tahmin
+
+`ltrace`, kütüphane çağrılarını ve argümanlarını basar. Karşılaştırma
+anındaki düz metin orada görünür.
+
+Alternatifler:
+
+    objdump -d ~/bin/checker | grep -i xor   # anahtar
+    gdb ~/bin/checker                        # break strcmp
+    xxd ~/lib/blob                           # veriyi gör, kendin çöz
+
+Gizleme bir güvenlik önlemi değildir. Bu odanın tek cümlesi budur.

@@ -1,0 +1,40 @@
+id: "08"
+slug: "process-env"
+title: "Görünmez Yolcu"
+concept: ["ps aux", "/proc/PID/environ", "strings", "ortam değişkenleri"]
+requires: "07"
+estimated_minutes: 12
+
+dirs:
+  - path: /usr/local/lib/wargame
+    owner: root
+    mode: "0755"
+
+files:
+  - path: /home/player08/NOTES
+    owner: player08
+    mode: "0640"
+    template: files/NOTES
+
+  # Uzun ömürlü doğrulayıcı: mühür 09'u ortamında taşır, player08
+  # kimliğine düşer. Süreç mühür içermez, dosyayı çalışma anında okur.
+  - path: /usr/local/lib/wargame/hold-09
+    owner: root
+    mode: "0755"
+    template: files/hold-09
+
+cron:
+  - user: root
+    schedule: "@reboot"
+    command: "/usr/local/lib/wargame/hold-09"
+
+flag:
+  owner: player08
+  mode: "0400"
+
+hints:
+  - "Bu odada senin başlatmadığın, ama senin adına çalışan bir süreç var."
+  - "`ps aux | grep -v grep | grep $(id -un)` — sahibi sen olan süreçleri göster."
+  - "`tr '\\0' '\\n' < /proc/<PID>/environ | grep SEAL` (veya `strings /proc/<PID>/environ`)."
+
+docs: docs/levels/08.md

@@ -1,0 +1,40 @@
+id: "07"
+slug: "local-service"
+title: "Kapalı Kapı"
+concept: ["ss -tulpn", "curl", "localhost", "servis keşfi"]
+requires: "06"
+estimated_minutes: 12
+
+dirs:
+  - path: /usr/local/lib/wargame
+    owner: root
+    mode: "0755"
+
+files:
+  - path: /home/player07/NOTES
+    owner: player07
+    mode: "0640"
+    template: files/NOTES
+
+  # Servis, bir sonraki kullanıcı (player08) adına çalışır ve kendi
+  # mührünü yalnızca localhost'a sunar. Dosya mühür içermez.
+  - path: /usr/local/lib/wargame/serve-08
+    owner: root
+    mode: "0755"
+    template: files/serve-08
+
+cron:
+  - user: player08
+    schedule: "@reboot"
+    command: "/usr/local/lib/wargame/serve-08"
+
+flag:
+  owner: player07
+  mode: "0400"
+
+hints:
+  - "Dışarıdan gelmiyor; bu odanın içinde bir şey dinliyor. Portlara bak."
+  - "`ss -tulpn` (veya `ss -tuln`) yalnızca 127.0.0.1'e bağlı bir port gösterir."
+  - "`curl http://127.0.0.1:8080/seal` — ya da `nc 127.0.0.1 8080` ve istek satırını elle yaz."
+
+docs: docs/levels/07.md

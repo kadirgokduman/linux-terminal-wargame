@@ -1,0 +1,73 @@
+id: "09"
+slug: "sudo-scope"
+title: "Dar Kapsam"
+concept: ["sudo -l", "sudo -u", "GTFOBins", "ayrıcalıklı iş", "en az yetki"]
+requires: "08"
+estimated_minutes: 15
+
+dirs:
+  - path: /etc/sudoers.d
+    owner: root
+    mode: "0755"
+  # Ev dizini 0750 olduğu için player10 oraya giremez; betik bu yüzden
+  # herkesin geçebildiği ama yalnızca player09'un yazabildiği bir yerde.
+  - path: /var/spool/wargame/09
+    owner: player09
+    mode: "0755"
+
+files:
+  - path: /home/player09/NOTES
+    owner: player09
+    mode: "0640"
+    template: files/NOTES
+
+  # Dar görünen kural: tek komut, tek hedef kullanıcı, parolasız.
+  # Ama find bir kabuktur: -exec ile istediğini çalıştırır.
+  # (no_new_privs altında sudo hiç çalışmaz; o profilde aşağıdaki yedek var.)
+  - path: /etc/sudoers.d/wargame-09
+    owner: root
+    mode: "0440"
+    template: files/sudoers-09
+    when: suid-enabled
+
+  # --- Sertleştirilmiş profil yedeği -------------------------------------
+  # sudo NNP altında imkânsız. Aynı ders, execve ayrıcalığı gerektirmeyen
+  # bir kalıpla verilir: ayrıcalıklı bir iş, kullanıcının yazabildiği
+  # betiği başka bir kullanıcı adına çalıştırıyor.
+  - path: /var/spool/wargame/09/sync.sh
+    owner: player09
+    mode: "0755"
+    when: suid-disabled
+    content: |
+      #!/bin/sh
+      # arşiv senkronu — player10 adına çalıştırılır.
+      # içeriği değiştirmek serbesttir; burası senin betiğin.
+      true
+
+  - path: /usr/local/lib/wargame/delegate-10
+    owner: root
+    mode: "0755"
+    when: suid-disabled
+    template: files/delegate-10
+
+cron:
+  - user: root
+    schedule: "@reboot"
+    command: "/usr/local/lib/wargame/delegate-10"
+    when: suid-disabled
+  - user: root
+    schedule: "* * * * *"
+    command: "/usr/local/lib/wargame/delegate-10"
+    when: suid-disabled
+
+flag:
+  owner: player09
+  mode: "0400"
+
+hints:
+  - "Bu odada bir yetki devri var, ama dar tutulmuş. `sudo -l` ile kendine bak."
+  - "Kural yalnızca `find` diyor. `find` komutunun `-exec` bayrağı ne yapar?"
+  - "`cd /tmp && sudo -n -u player10 find /etc/wargame/pass/10 -exec cat {} \\;`"
+  - "Sudo çalışmıyorsa: `ls -l /var/spool/wargame/09`, sonra `cat /etc/cron.d/wargame-09-*`."
+
+docs: docs/levels/09.md

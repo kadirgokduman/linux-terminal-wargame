@@ -1,0 +1,23 @@
+id: "00"
+slug: "bootstrap"
+title: "Eşik"
+concept: ["pwd", "ls -la", "cat", "dosya izinleri"]
+requires: null
+estimated_minutes: 3
+
+files:
+  - path: /home/player00/welcome.txt
+    owner: player00
+    mode: "0640"
+    template: files/welcome.txt
+
+flag:
+  owner: player00
+  mode: "0400"
+
+hints:
+  - "Nerede olduğunu gör: `pwd`, sonra `ls -la`. Gizli dosya yok, ama izinlere bak."
+  - "Odada tek bir metin var. Okumak için `cat` yeterli."
+  - "Dosya: /home/player00/welcome.txt — mühür 01 satırın içinde."
+
+docs: docs/levels/00.md

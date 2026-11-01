@@ -1,0 +1,23 @@
+MÜHÜR ODASI — NOTLAR
+====================
+
+Mühürler /etc/wargame/pass/ altında durur. Her biri 0400'dür:
+sahibinden başkası okuyamaz. Bu yüzden bir mühür, kendi odasının
+dışında işe yaramaz.
+
+Ama bu odada bir ayrıcalık bırakıldı.
+
+  ~/bin/wargame-read
+
+Bu dosyanın sahibi ben değilim. Bir sonraki oda. Yine de benim
+dizinimde duruyor ve benim adıma çalışıyor.
+
+Moduna bak. Sonra çalıştır. Gerisini kendisi söyler.
+
+Bir not: bu makine iki türlü kurulabilir. Birincisinde ayrıcalık
+çalıştırılabilir bir dosyanın sahipliğindedir (SUID). İkincisinde
+ayrıcalık doğrudan mühür dosyasının izinlerine yazılmıştır (POSIX ACL).
+
+İkinci durumda okuyucu çalışmaz, çünkü `no-new-privileges` her türlü
+çalıştırma-anı ayrıcalığını engeller. O zaman `ls -l` sana bir `+`
+işareti gösterir; nedeni `getfacl` çıktısındadır.

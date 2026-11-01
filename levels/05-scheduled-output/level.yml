@@ -1,0 +1,45 @@
+id: "05"
+slug: "scheduled-output"
+title: "Kendiliğinden"
+concept: ["cron", "/etc/cron.d", "@reboot", "çıktı yönlendirme"]
+requires: "04"
+estimated_minutes: 12
+
+dirs:
+  - path: /var/spool/wargame/05
+    owner: root
+    mode: "0755"
+  - path: /usr/local/lib/wargame
+    owner: root
+    mode: "0755"
+
+files:
+  # İşi yapan betik mühür içermez; mühür odasından okur ve player05'in
+  # okuyabileceği bir çıktı dosyasına bırakır.
+  - path: /usr/local/lib/wargame/emit-06
+    owner: root
+    mode: "0755"
+    template: files/emit-06
+
+cron:
+  - user: root
+    schedule: "@reboot"
+    command: "/usr/local/lib/wargame/emit-06"
+  - user: root
+    schedule: "* * * * *"
+    command: "/usr/local/lib/wargame/emit-06"
+
+# Çalışma zamanında cron tarafından üretilen meşru çıktı.
+expose:
+  - /var/spool/wargame/05/seal.log
+
+flag:
+  owner: player05
+  mode: "0400"
+
+hints:
+  - "Bu odada senin başlatmadığın bir şey çalışıyor. Zamanlanmış işlere bak."
+  - "`ls -l /etc/cron.d/` ve dosyaları oku: komut ve çıktı yönlendirmesi görünür."
+  - "Betiğin kendisi okunamaz (root'a ait), ama çıktısı senin: `/var/spool/wargame/05/seal.log`."
+
+docs: docs/levels/05.md

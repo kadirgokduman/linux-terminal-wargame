@@ -1,0 +1,17 @@
+SERVİS ODASI
+============
+
+Bu makinede dışarıya açılan hiçbir şey yok. Ama içeride, bu odanın
+duvarının arkasında, bir şey dinliyor.
+
+Dinleyen süreç senin kullanıcın değil. Bu yüzden `ss -p` sana sahibini
+göstermez; yalnızca portu gösterir. Port yeterli.
+
+Bir servisi bulmanın sırası:
+
+    ss -tulpn        # hangi port, hangi adres, hangi protokol
+    curl <adres>     # konuş
+    nc <host> <port> # konuşamıyorsan elle yaz
+
+Adres 127.0.0.1 ise servis yalnızca bu makineden erişilebilir demektir.
+Bu, güvenlik değil; yalnızca bir kapı tercihidir.

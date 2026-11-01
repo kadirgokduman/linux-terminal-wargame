@@ -1,0 +1,49 @@
+id: "01"
+slug: "ledger"
+title: "Defter"
+concept: ["grep", "base64", "dizin gezinme"]
+requires: "00"
+estimated_minutes: 8
+
+dirs:
+  - path: /home/player01/ledger
+    owner: player01
+    mode: "0750"
+
+files:
+  - path: /home/player01/README
+    owner: player01
+    mode: "0640"
+    template: files/README.md
+
+  - path: /home/player01/ledger/2026-10-01.md
+    owner: player01
+    mode: "0640"
+    template: files/2026-10-01.md
+
+  - path: /home/player01/ledger/2026-10-02.md
+    owner: player01
+    mode: "0640"
+    template: files/2026-10-02.md
+
+  - path: /home/player01/ledger/2026-10-03.md
+    owner: player01
+    mode: "0640"
+    template: files/2026-10-03.md
+
+  - path: /home/player01/ledger/2026-10-04.md
+    owner: player01
+    mode: "0640"
+    template: files/2026-10-04.md
+
+flag:
+  owner: player01
+  mode: "0400"
+
+hints:
+  - "Dizin ağacına bak: `ls -R ~`. Dört sayfa var, biri diğerlerinden farklı."
+  - "Hepsini tek tek açmak yerine içerikte ara: `grep -rn 'taşıyıcı' ~/ledger`."
+  - "Bulduğun satır base64 ile kodlanmış: `... | base64 -d`."
+  - "Mühür 02, 2026-10-03 sayfasında kodlanmış olarak duruyor."
+
+docs: docs/levels/01.md

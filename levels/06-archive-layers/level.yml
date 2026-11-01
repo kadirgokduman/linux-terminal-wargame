@@ -1,0 +1,52 @@
+id: "06"
+slug: "archive-layers"
+title: "Katmanlar"
+concept: ["file", "tar -ztvf", "tar -xzvf", "bzip2"]
+requires: "05"
+estimated_minutes: 15
+
+dirs:
+  - path: /srv/archive
+    owner: root
+    mode: "0755"
+
+files:
+  - path: /home/player06/NOTES
+    owner: player06
+    mode: "0640"
+    template: files/NOTES
+
+archives:
+  - path: /srv/archive/backup.tar.gz
+    owner: player06
+    mode: "0640"
+    format: tar.gz
+    members:
+      - name: MANIFEST
+        content: |
+          BACKUP · 1996-03-14 · offsite bundle
+          ------------------------------------
+          Bu paket iki katmandır: dış katman gzip'li tar, iç katman
+          bzip2'li tar. Her katman kendi başına okunur.
+
+          Sıra: listele, aç, tekrar listele, tekrar aç.
+
+      - name: 1996/report.txt
+        template: files/report.txt
+
+      - name: 1996/seal.tar.bz2
+        format: tar.bz2
+        members:
+          - name: seal.txt
+            template: files/seal.txt
+
+flag:
+  owner: player06
+  mode: "0400"
+
+hints:
+  - "Dosya bir arşiv, ama hangi tür? `file /srv/archive/backup.tar.gz` söyler."
+  - "İçeriği çıkarmadan listele: `tar -ztvf /srv/archive/backup.tar.gz`. İçinde bir `.tar.bz2` var."
+  - "İç katman: `tar -xzf … -C /tmp/wg` sonra `tar -tjf /tmp/wg/1996/seal.tar.bz2`."
+
+docs: docs/levels/06.md

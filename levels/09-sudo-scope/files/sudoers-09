@@ -1,0 +1,8 @@
+# wargame — seviye 09
+#
+# Niyet: player09, arşiv doğrulaması için player10'un kimliğiyle tek bir
+# komut çalıştırabilsin. Kural bilinçli olarak "dar" görünüyor.
+#
+# Gerçek: find bir GTFOBins aracıdır. -exec ile keyfi komut çalıştırır,
+# yani kural aslında "player10 olarak her şey" demektir.
+player09 ALL=(player10) NOPASSWD: /usr/bin/find

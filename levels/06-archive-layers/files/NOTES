@@ -1,0 +1,19 @@
+ARŞİV ODASI
+===========
+
+1996'daki offsite yedek burada. Paketler katmanlıdır: dış katman
+sıkıştırılmış tar, iç katman başka bir sıkıştırılmış tar.
+
+Neden katman? Çünkü 1996'da bant genişliği pahalıydı ve her katman
+ayrı ayrı doğrulanıyordu. Bugün sana yalnızca fazladan bir `tar`
+komutu olarak görünür.
+
+Sıra her zaman aynıdır:
+
+    file <dosya>          # ne olduğunu söyler
+    tar -ztvf <dosya>     # içindekileri listeler (gzip)
+    tar -xzvf <dosya>     # açar
+
+İç katman bzip2 ise bayraklar değişir: -j listeler, -xj açar.
+
+Çıkarmadan önce listele. Her zaman.

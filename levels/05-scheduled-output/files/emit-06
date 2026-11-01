@@ -1,0 +1,11 @@
+#!/bin/sh
+# Mühür 06'yı mühür odasından alır ve player05'in okuyabileceği bir
+# çıktı dosyasına bırakır. /etc/cron.d üzerinden root olarak çalışır.
+#
+# Bu dosya bilinçli olarak mühür değeri içermez: mühür yalnızca
+# çalışma zamanında, kendi sahibinin izniyle okunur.
+set -eu
+
+install -o player05 -g player05 -m 0640 \
+  /etc/wargame/pass/06 \
+  /var/spool/wargame/05/seal.log

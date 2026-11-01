@@ -1,0 +1,14 @@
+KAYIT ODASI
+===========
+
+1996'daki taşımaların günlüğü bu dizinde. Biçim yıllar içinde değişmedi:
+
+    <zaman>  actor=<kim>  status=<ne oldu>  ref=<referans>
+
+Birçok satır `status=sealed` der; çoğu sıradan taşıyıcılar tarafından
+mühürlenmiştir. Birçok satır `actor=custodian` der; çoğu sıradan
+kontroldür.
+
+Yalnızca bir satır ikisini birden söyler. O satırın `ref` alanı mühürdür.
+
+Satırları tek tek okumaya kalkma. Alanları sor.

@@ -1,0 +1,37 @@
+id: "10"
+slug: "pcap-capture"
+title: "Kayıt Altında"
+concept: ["tcpdump -r", "strings", "HTTP başlıkları", "paket analizi"]
+requires: "09"
+estimated_minutes: 12
+
+dirs:
+  - path: /srv/pcap
+    owner: root
+    mode: "0755"
+
+files:
+  - path: /home/player10/NOTES
+    owner: player10
+    mode: "0640"
+    template: files/NOTES
+
+# 1996'daki doğrulama trafiği. Mühür, POST isteğinin başlığında ve
+# gövdesinde düz metin olarak durur; sıkıştırma yoktur.
+pcaps:
+  - path: /srv/pcap/capture.pcap
+    owner: player10
+    mode: "0640"
+    host: repository.calder.example
+    seal: "{{flag:11}}"
+
+flag:
+  owner: player10
+  mode: "0400"
+
+hints:
+  - "Bu bir ağ kaydı, metin değil. Önce ne olduğunu sor: `file /srv/pcap/capture.pcap`."
+  - "`tcpdump -r /srv/pcap/capture.pcap -A` paketlerin içeriğini ASCII olarak basar."
+  - "Mühür, `POST /archive/verify` isteğinin `X-Archive-Seal` başlığında."
+
+docs: docs/levels/10.md

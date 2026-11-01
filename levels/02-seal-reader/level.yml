@@ -1,0 +1,44 @@
+id: "02"
+slug: "seal-reader"
+title: "Mühür Okuyucusu"
+concept: ["SUID", "find -perm -4000", "ls -la", "ayrıcalık"]
+requires: "01"
+estimated_minutes: 12
+
+dirs:
+  - path: /home/player02/bin
+    owner: player02
+    mode: "0750"
+
+files:
+  - path: /home/player02/NOTES
+    owner: player02
+    mode: "0640"
+    template: files/NOTES
+
+  # SUID: sahibi player03, çalıştıran player02. Yalnızca pass/03'ü okuyabilir.
+  - path: /home/player02/bin/wargame-read
+    owner: player03
+    mode: "4755"
+    source: /opt/wargame/bin/reader
+
+flag:
+  owner: player02
+  mode: "0400"
+
+# Sertleştirilmiş profilde (no-new-privileges) SUID ve dosya yetenekleri
+# çalışmaz; ayrıcalık dosya izniyle verilir. Varsayılan profilde bu blok
+# uygulanmaz, oyuncu SUID okuyucusunu kullanır.
+acl:
+  - path: /etc/wargame/pass/03
+    user: player02
+    perms: r
+    when: suid-disabled
+
+hints:
+  - "Bir dosya senin değil ama senin adına çalışıyorsa moduna bak: `ls -la ~/bin`."
+  - "`find / -perm -4000 -type f 2>/dev/null` SUID dosyalarını listeler."
+  - "Okuyucu tek argüman alır: mühür yolu. `/etc/wargame/pass/03`."
+  - "SUID listesi boşsa bu profil farklı çalışıyor: `getfacl /etc/wargame/pass/03`."
+
+docs: docs/levels/02.md

@@ -1,0 +1,12 @@
+VAULT SLOT · 1996-03-14 · offsite copy
+--------------------------------------
+holder      : custodian (provisional)
+case        : 96-0314-CR
+contents    : one (1) seal, transferred to player04
+
+seal        : {{flag:04}}
+
+note        : every record in this vault uses the same 4096-byte slot.
+              size tells you where to look; ownership tells you which
+              record is yours. using only one of them leaves you in the
+              wrong room.

@@ -1,0 +1,12 @@
+#!/bin/sh
+# "Dar görünen" delegasyon: bu iş, kullanıcının hazırladığı betiği
+# player10 kimliğiyle çalıştırır.
+#
+# no_new_privs altında sudo çalışmaz (setuid execve engellenir), ama
+# ayrıcalıklı bir sürecin setuid() sistem çağrısıyla kimlik değiştirmesi
+# engellenmez. Bu yüzden ders aynı kalır: yetkiyi verdiğin şey,
+# yapabildiği her şeyi yapar.
+set -eu
+
+exec setpriv --reuid=player10 --regid=player10 --init-groups \
+  /var/spool/wargame/09/sync.sh

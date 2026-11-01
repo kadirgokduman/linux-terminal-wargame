@@ -1,0 +1,44 @@
+id: "11"
+slug: "reverse-binary"
+title: "Kuşatılmış Sır"
+concept: ["file", "strings", "ltrace", "gdb", "objdump", "XOR"]
+requires: "10"
+estimated_minutes: 20
+
+dirs:
+  - path: /home/player11/bin
+    owner: player11
+    mode: "0750"
+  - path: /home/player11/lib
+    owner: player11
+    mode: "0750"
+
+files:
+  - path: /home/player11/NOTES
+    owner: player11
+    mode: "0640"
+    template: files/NOTES
+
+  # Doğrulayıcı: mühürü kendi içinde taşımaz, blob'u çözer.
+  - path: /home/player11/bin/checker
+    owner: player11
+    mode: "0755"
+    source: /opt/wargame/bin/checker
+
+  # Mühür burada, ama 0x5A ile XOR'lanmış: `strings` hiçbir şey göstermez.
+  - path: /home/player11/lib/blob
+    owner: player11
+    mode: "0644"
+    template: files/blob.txt
+    encoding: xor
+
+flag:
+  owner: player11
+  mode: "0400"
+
+hints:
+  - "Biner mühürü içinde taşımıyor; bir dosyayı okuyup çözüyor. `ltrace` ne okuduğunu gösterir."
+  - "`objdump -d ~/bin/checker | grep -i xor` — tek baytlık bir anahtar görünür."
+  - "`ltrace -s 200 -e strcmp ~/bin/checker x` karşılaştırmadaki düz metni basar."
+
+docs: docs/levels/11.md

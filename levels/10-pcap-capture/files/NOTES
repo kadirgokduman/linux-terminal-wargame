@@ -1,0 +1,18 @@
+AĞ KAYDI
+========
+
+1996'daki doğrulama trafiği bir noktada kaydedilmiş. Dosya
+`/srv/pcap/capture.pcap`.
+
+Ağ kaydı bir metin dosyası değildir; ikili bir biçimdir. Ama içindeki
+yük (payload) çoğu zaman düz metindir — HTTP gibi protokoller öyledir.
+Bu yüzden iki yol var:
+
+    tcpdump -r capture.pcap            # paketleri özetler
+    tcpdump -r capture.pcap -A         # yükleri ASCII olarak basar
+
+Sadece metin arıyorsan `strings` de yeterli olabilir. Ama önce
+`tcpdump -r` ile konuşmayı gör: kim, kime, hangi sırayla.
+
+İpucu: HTTP başlıkları `Anahtar: değer` biçimindedir. Mühür, bir
+doğrulama isteğinin başlığında taşınmış olabilir.

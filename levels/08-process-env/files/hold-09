@@ -1,0 +1,13 @@
+#!/bin/sh
+# Uzun ömürlü doğrulayıcı süreç.
+#
+# root olarak başlar, mühür 09'u okur, player08 kimliğine düşer ve değeri
+# ortamında taşır. Böylece mühür dosya sisteminde player08 için
+# görünmez olur; yalnızca kendi sürecinin ortamında yaşar.
+set -eu
+
+seal="$(cat /etc/wargame/pass/09)"
+
+exec setpriv --reuid=player08 --regid=player08 --init-groups \
+  env ARCHIVE_SEAL="$seal" ARCHIVE_ROLE=verifier ARCHIVE_BUILD=1996 \
+  sleep infinity
