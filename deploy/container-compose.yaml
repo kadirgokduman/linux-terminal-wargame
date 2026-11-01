@@ -1,0 +1,101 @@
+# Sertleştirilmiş profil — üretim için.
+#
+#   docker compose -f deploy/container-compose.yaml up -d
+#
+# Ana `compose.yaml` oynanabilir profildir. Bu dosya onu sıkılaştırır:
+# seccomp, daha dar kaynak limitleri ve `no-new-privileges: true`.
+#
+# ÖNEMLİ: `no-new-privileges`, setuid binerlerinin ayrıcalık kazanmasını
+# engellemek için vardır — yani SUID ve sudo ile çalışan iki seviyeyi
+# (02 ve 09) oynanamaz hale getirir. Bu yüzden bu profil
+# WARGAME_DISABLE_SUID=1 ile gelir: SUID bitleri yazılmaz ve denetim de
+# bunu bekler. Diğer on seviye normal çalışır.
+
+name: wargame-hardened
+
+services:
+  sandbox:
+    build:
+      context: ..
+      dockerfile: docker/base.Dockerfile
+    image: wargame/base:hardened
+    hostname: repository
+    restart: unless-stopped
+
+    ports:
+      - "${WARGAME_HOST:-127.0.0.1}:${WARGAME_PORT:-2223}:22"
+
+    environment:
+      WARGAME_EPOCH: ${WARGAME_EPOCH:-dev}
+      # SUID/sudo seviyeleri bu profilde bilinçli olarak devre dışı.
+      WARGAME_DISABLE_SUID: "1"
+
+    secrets:
+      - wargame_secret
+
+    volumes:
+      - home:/home
+      - spool:/var/spool/wargame
+      - logs:/var/log/wargame
+
+    tmpfs:
+      - /tmp:rw,exec,nosuid,size=128m
+      - /run:rw,noexec,nosuid,size=32m
+
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - DAC_OVERRIDE
+      - FOWNER
+      - SETGID
+      - SETUID
+      - AUDIT_WRITE
+      # sshd, kimlik doğrulama öncesi sürecini /run/sshd'ye chroot eder.
+      - SYS_CHROOT
+
+    security_opt:
+      - no-new-privileges:true
+      - seccomp:./seccomp.json
+
+    # Sıkı kaynak tavanları: tek oyuncu tüm düğümü düşüremesin.
+    pids_limit: 100
+    mem_limit: 512m
+    memswap_limit: 512m
+    cpus: 1.0
+    ulimits:
+      nofile:
+        soft: 512
+        hard: 1024
+      nproc: 64
+      core: 0
+
+    stop_grace_period: 5s
+
+    healthcheck:
+      test: ["CMD-SHELL", "nc -w 2 127.0.0.1 22 | head -c 3 | grep -q SSH"]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: ${WARGAME_SUBNET:-172.30.0.0/16}
+
+volumes:
+  home:
+  spool:
+  logs:
+
+secrets:
+  wargame_secret:
+    file: ../docker/secrets/wargame_secret

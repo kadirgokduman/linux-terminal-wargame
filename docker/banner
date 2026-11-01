@@ -1,0 +1,15 @@
+  ┌──────────────────────────────────────────────────────────────┐
+  │  C A L D E R   R E A C H   ·   A R C H I V E   T E R M I N A L │
+  └──────────────────────────────────────────────────────────────┘
+
+  Bu makine bir bulmaca sunucusudur. Buradaki her şey kasıtlıdır:
+  izinler, sahiplikler, zamanlanmış işler ve eksik dosyalar.
+
+  Kurallar
+    · Yalnızca kendi kullanıcınızın dosyalarına ve paylaşılan alana dokunun.
+    · Başka oyuncuların oturumlarını hedef almayın.
+    · Sunucudan dışarı çıkmayı denemeyin; ağ kapalıdır.
+    · Bulmacayı çözmek için başka birinin çözümünü değil, kendi komutunuzu
+      kullanın.
+
+  İpucu: `ls -la` ile başlayın. Neredeyse her zaman doğru cevaptır.

@@ -1,0 +1,51 @@
+# wargame sandbox — sshd yapılandırması
+#
+# Her satır bir saldırı yüzeyi kararıdır. Yorumlar kararları gerekçelendirir;
+# gerekçesiz bir satır eklemeyin.
+
+Port 22
+AddressFamily inet
+UseDNS no
+GSSAPIAuthentication no
+
+HostKey /etc/ssh/ssh_host_ed25519_key
+
+# Root asla giriş yapamaz; oyuncular yalnızca player* kullanıcılarıdır.
+PermitRootLogin no
+AllowUsers player*
+DenyUsers root
+
+# Zincir parola tabanlıdır: her seviyenin parolası bir öncekinin bulmacasından
+# çıkar. Anahtar tabanlı giriş bu zinciri atlar, bu yüzden kapalıdır.
+PasswordAuthentication yes
+PubkeyAuthentication no
+KbdInteractiveAuthentication no
+PermitEmptyPasswords no
+UsePAM yes
+
+# Oyuncu başına kalıcılık aracı olmasın: env taşıma, tünel, X11, agent yok.
+PermitUserEnvironment no
+AllowAgentForwarding no
+AllowTcpForwarding no
+AllowStreamLocalForwarding no
+X11Forwarding no
+PermitTunnel no
+GatewayPorts no
+
+# Kaba kuvvet ve kaynak tükenmesi sınırları.
+MaxAuthTries 3
+MaxSessions 4
+MaxStartups 20:30:60
+LoginGraceTime 20
+ClientAliveInterval 300
+ClientAliveCountMax 2
+
+# Oturum kaydı: her giriş PAM üzerinden ilerleme defterine yazılır.
+LogLevel VERBOSE
+SyslogFacility AUTH
+PrintMotd no
+PrintLastLog no
+Banner /etc/wargame/banner
+
+# Dosya transferi kapalı: oyuncular sunucudan dosya indirmemeli.
+Subsystem sftp /bin/false
